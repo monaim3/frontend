@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SafePath — frontend
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 (App Router) + TypeScript + Tailwind v4. Spec: [`../docs/SAFEPATH_MASTER_PROMPT.md`](../docs/SAFEPATH_MASTER_PROMPT.md).
 
 ```bash
+npm install      # also copies the MapLibre worker into public/maplibre (postinstall)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 — redirects to `/bn` (Bangla-first). English at `/en`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Path | What |
+|---|---|
+| `src/app/[lang]/` | Routes. `(site)` group = pages with header/footer; `map/` is full-screen. |
+| `src/i18n/` | `bn.ts` / `en.ts` dictionaries (typed — a missing key fails the build). |
+| `src/lib/safety/` | Domain logic: bands, categories, API types, explanations. |
+| `src/lib/safety/demo-data.ts` | **Synthetic demo data.** Not real reports. Remove when the API exists. |
+| `src/lib/api/safety.ts` | Data access. Each function names the backend endpoint it will call. |
+| `src/features/` | Interactive client features: map, area knowledge list, quick report. |
+| `src/components/` | Shared UI and layout. |
 
-## Learn More
+## Free services used
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Map tiles: [OpenFreeMap](https://openfreemap.org) (no key)
+- Search: [Photon](https://photon.komoot.io) public API — swap to self-hosted Photon in production
+- Hex grid: [H3](https://h3geo.org), resolutions 8–10 by zoom
+- Icons: [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji) 3D (MIT, licence in `public/icons/`) and [Lucide](https://lucide.dev) (ISC)
